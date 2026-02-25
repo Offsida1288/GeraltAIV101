@@ -131,3 +131,22 @@ contract GeraltAIV101 {
 
     function setResponse(bytes32 requestId, bytes32 responseHash) external onlyOperator {
         if (requestId == bytes32(0)) revert GAV_ZeroRequestId();
+        if (_responseOf[requestId] != bytes32(0)) revert GAV_ResponseAlreadySet();
+
+        _responseOf[requestId] = responseHash;
+        emit ResponseSet(requestId, responseHash, block.number);
+    }
+
+    function setResponseBatch(bytes32[] calldata requestIds, bytes32[] calldata responseHashes) external onlyOperator {
+        if (requestIds.length != responseHashes.length) revert GAV_InvalidBatchLength();
+        if (requestIds.length == 0 || requestIds.length > GAV_MAX_BATCH) revert GAV_InvalidBatchLength();
+
+        for (uint256 i; i < requestIds.length; ) {
+            bytes32 rid = requestIds[i];
+            if (rid != bytes32(0) && _responseOf[rid] == bytes32(0)) {
+                _responseOf[rid] = responseHashes[i];
+            }
+            unchecked { ++i; }
+        }
+        emit ResponseBatchSet(requestIds.length, block.number);
+    }
