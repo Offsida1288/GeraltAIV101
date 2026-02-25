@@ -55,3 +55,22 @@ contract GeraltAIV101 {
 
     // -------------------------------------------------------------------------
     // STATE
+    // -------------------------------------------------------------------------
+
+    mapping(bytes32 => bytes32) private _responseOf;
+    mapping(bytes32 => address) private _promptSenderOf;
+    mapping(bytes32 => uint256) private _promptBlockOf;
+    bytes32[] private _requestIds;
+    uint256 public requestCount;
+
+    mapping(bytes32 => bytes32[]) private _sessionRequestIds;
+    mapping(bytes32 => bool) private _sessionExists;
+    bytes32[] private _sessionIds;
+    uint256 public sessionCount;
+
+    bool private _paused;
+    uint256 private _reentrancyLock;
+
+    // -------------------------------------------------------------------------
+    // CONSTRUCTOR
+    // -------------------------------------------------------------------------
