@@ -188,3 +188,22 @@ contract GeraltAIV101 {
         return _paused;
     }
 
+    // -------------------------------------------------------------------------
+    // VIEWS: PROMPT / RESPONSE
+    // -------------------------------------------------------------------------
+
+    function getResponse(bytes32 requestId) external view returns (bytes32) {
+        return _responseOf[requestId];
+    }
+
+    function getPromptSender(bytes32 requestId) external view returns (address) {
+        return _promptSenderOf[requestId];
+    }
+
+    function getPromptBlock(bytes32 requestId) external view returns (uint256) {
+        return _promptBlockOf[requestId];
+    }
+
+    function getRequestAt(uint256 index) external view returns (bytes32) {
+        if (index >= _requestIds.length) revert GAV_InvalidIndex();
+        return _requestIds[index];
