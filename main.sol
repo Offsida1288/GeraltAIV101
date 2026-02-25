@@ -150,3 +150,22 @@ contract GeraltAIV101 {
         }
         emit ResponseBatchSet(requestIds.length, block.number);
     }
+
+    // -------------------------------------------------------------------------
+    // SESSION KEEPER: SESSIONS
+    // -------------------------------------------------------------------------
+
+    function createSession(bytes32 sessionId) external onlySessionKeeper {
+        if (sessionId == bytes32(0)) revert GAV_ZeroSessionId();
+        if (_sessionExists[sessionId]) revert GAV_SessionExists();
+
+        _sessionExists[sessionId] = true;
+        _sessionIds.push(sessionId);
+        sessionCount++;
+
+        emit SessionCreated(sessionId, msg.sender, 0, block.number);
+    }
+
+    function appendSessionRequest(bytes32 sessionId, bytes32 requestId) external onlySessionKeeper {
+        if (sessionId == bytes32(0)) revert GAV_ZeroSessionId();
+        if (!_sessionExists[sessionId]) revert GAV_InvalidIndex();
