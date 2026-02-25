@@ -169,3 +169,22 @@ contract GeraltAIV101 {
     function appendSessionRequest(bytes32 sessionId, bytes32 requestId) external onlySessionKeeper {
         if (sessionId == bytes32(0)) revert GAV_ZeroSessionId();
         if (!_sessionExists[sessionId]) revert GAV_InvalidIndex();
+        if (_sessionRequestIds[sessionId].length >= GAV_MAX_SESSION_REQUESTS) revert GAV_MaxRequestsReached();
+
+        _sessionRequestIds[sessionId].push(requestId);
+        emit SessionRequestAppended(sessionId, requestId, block.number);
+    }
+
+    // -------------------------------------------------------------------------
+    // OPERATOR: PAUSE
+    // -------------------------------------------------------------------------
+
+    function setPaused(bool paused) external onlyOperator {
+        _paused = paused;
+        emit PauseToggled(paused, msg.sender, block.number);
+    }
+
+    function isPaused() external view returns (bool) {
+        return _paused;
+    }
+
