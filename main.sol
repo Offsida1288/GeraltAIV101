@@ -226,3 +226,18 @@ contract GeraltAIV101 {
         if (index >= arr.length) revert GAV_InvalidIndex();
         return arr[index];
     }
+
+    function getSessionAt(uint256 index) external view returns (bytes32) {
+        if (index >= _sessionIds.length) revert GAV_InvalidIndex();
+        return _sessionIds[index];
+    }
+
+    function sessionExists(bytes32 sessionId) external view returns (bool) {
+        return _sessionExists[sessionId];
+    }
+
+    function getDeployBlock() external view returns (uint256) {
+        return deployBlock;
+    }
+}
+
