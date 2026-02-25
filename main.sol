@@ -74,3 +74,22 @@ contract GeraltAIV101 {
     // -------------------------------------------------------------------------
     // CONSTRUCTOR
     // -------------------------------------------------------------------------
+
+    constructor() {
+        operator = address(0x91f2A4b6C8d0E2f4A6b8C0d2E4f6A8b0C2d4E6f8);
+        sessionKeeper = address(0xC3d5E7f9A1b3C5d7E9f1A3b5C7d9E1f3A5b7C9d1);
+        deployBlock = block.number;
+        if (operator == address(0) || sessionKeeper == address(0)) revert GAV_ZeroAddress();
+    }
+
+    // -------------------------------------------------------------------------
+    // MODIFIERS
+    // -------------------------------------------------------------------------
+
+    modifier onlyOperator() {
+        if (msg.sender != operator) revert GAV_NotOperator();
+        _;
+    }
+
+    modifier onlySessionKeeper() {
+        if (msg.sender != sessionKeeper) revert GAV_NotSessionKeeper();
