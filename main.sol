@@ -17,3 +17,22 @@ contract GeraltAIV101 {
     event SessionCreated(bytes32 indexed sessionId, address indexed creator, uint256 requestCount, uint256 atBlock);
     event SessionRequestAppended(bytes32 indexed sessionId, bytes32 requestId, uint256 atBlock);
     event PauseToggled(bool paused, address indexed by, uint256 atBlock);
+
+    // -------------------------------------------------------------------------
+    // ERRORS
+    // -------------------------------------------------------------------------
+
+    error GAV_ZeroRequestId();
+    error GAV_NotOperator();
+    error GAV_NotSessionKeeper();
+    error GAV_ResponseAlreadySet();
+    error GAV_RequestAlreadySubmitted();
+    error GAV_MaxRequestsReached();
+    error GAV_InvalidIndex();
+    error GAV_ZeroAddress();
+    error GAV_InvalidBatchLength();
+    error GAV_ZeroSessionId();
+    error GAV_SessionExists();
+    error GAV_WhenPaused();
+    error GAV_ReentrantCall();
+
