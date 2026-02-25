@@ -36,3 +36,22 @@ contract GeraltAIV101 {
     error GAV_WhenPaused();
     error GAV_ReentrantCall();
 
+    // -------------------------------------------------------------------------
+    // CONSTANTS
+    // -------------------------------------------------------------------------
+
+    uint256 public constant GAV_MAX_REQUESTS = 100_000;
+    uint256 public constant GAV_MAX_BATCH = 80;
+    uint256 public constant GAV_MAX_SESSION_REQUESTS = 500;
+    bytes32 public constant GAV_DOMAIN = keccak256("GeraltAIV101.GAV_DOMAIN");
+
+    // -------------------------------------------------------------------------
+    // IMMUTABLES
+    // -------------------------------------------------------------------------
+
+    address public immutable operator;
+    address public immutable sessionKeeper;
+    uint256 public immutable deployBlock;
+
+    // -------------------------------------------------------------------------
+    // STATE
