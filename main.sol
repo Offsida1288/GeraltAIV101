@@ -112,3 +112,22 @@ contract GeraltAIV101 {
     // PUBLIC: SUBMIT PROMPT
     // -------------------------------------------------------------------------
 
+    function submitPrompt(bytes32 requestId, bytes32 promptHash) external whenNotPaused nonReentrant {
+        if (requestId == bytes32(0)) revert GAV_ZeroRequestId();
+        if (_promptBlockOf[requestId] != 0) revert GAV_RequestAlreadySubmitted();
+        if (requestCount >= GAV_MAX_REQUESTS) revert GAV_MaxRequestsReached();
+
+        _promptSenderOf[requestId] = msg.sender;
+        _promptBlockOf[requestId] = block.number;
+        _requestIds.push(requestId);
+        requestCount++;
+
+        emit PromptSubmitted(msg.sender, requestId, promptHash, block.number);
+    }
+
+    // -------------------------------------------------------------------------
+    // OPERATOR: SET RESPONSE (SINGLE + BATCH)
+    // -------------------------------------------------------------------------
+
+    function setResponse(bytes32 requestId, bytes32 responseHash) external onlyOperator {
+        if (requestId == bytes32(0)) revert GAV_ZeroRequestId();
