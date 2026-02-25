@@ -93,3 +93,22 @@ contract GeraltAIV101 {
 
     modifier onlySessionKeeper() {
         if (msg.sender != sessionKeeper) revert GAV_NotSessionKeeper();
+        _;
+    }
+
+    modifier whenNotPaused() {
+        if (_paused) revert GAV_WhenPaused();
+        _;
+    }
+
+    modifier nonReentrant() {
+        if (_reentrancyLock != 0) revert GAV_ReentrantCall();
+        _reentrancyLock = 1;
+        _;
+        _reentrancyLock = 0;
+    }
+
+    // -------------------------------------------------------------------------
+    // PUBLIC: SUBMIT PROMPT
+    // -------------------------------------------------------------------------
+
