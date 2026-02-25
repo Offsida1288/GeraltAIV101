@@ -207,3 +207,22 @@ contract GeraltAIV101 {
     function getRequestAt(uint256 index) external view returns (bytes32) {
         if (index >= _requestIds.length) revert GAV_InvalidIndex();
         return _requestIds[index];
+    }
+
+    function totalRequests() external view returns (uint256) {
+        return _requestIds.length;
+    }
+
+    // -------------------------------------------------------------------------
+    // VIEWS: SESSIONS
+    // -------------------------------------------------------------------------
+
+    function getSessionRequestCount(bytes32 sessionId) external view returns (uint256) {
+        return _sessionRequestIds[sessionId].length;
+    }
+
+    function getSessionRequestAt(bytes32 sessionId, uint256 index) external view returns (bytes32) {
+        bytes32[] storage arr = _sessionRequestIds[sessionId];
+        if (index >= arr.length) revert GAV_InvalidIndex();
+        return arr[index];
+    }
